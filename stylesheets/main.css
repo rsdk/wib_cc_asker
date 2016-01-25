@@ -1,0 +1,38 @@
+form {
+	width: 40em;
+}
+
+#h2 {
+	font-weight: bold;
+	font-size: 150%;
+	width: 90%;
+	margin-left: 7%;
+	float: left;
+}
+
+input,
+label.input {
+	float: left;
+	width: 40%;
+}
+
+input {
+	margin: 0 0 1em .2em;
+	padding: .2em .5em;
+	background-color: #fffbf0;
+	border: 1px solid #e7c157;
+}
+
+label.input {
+	text-align: right;
+	line-height: 1.5;
+}
+
+label.input::after {
+	content: ": ";
+}
+
+button {
+	float: right;
+	width: 30%;
+}

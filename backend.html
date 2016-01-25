@@ -1,0 +1,45 @@
+<html>
+  <body>
+	<div>{{ .User }}
+      <form action="{{ .Lo_url }}" method="get">
+        <input type="submit" value="Ausloggen">
+      </form>
+	</div> 
+    <h1>Hier sind alle deine Fragen</h1><br>
+	<h1>{{ .Uurl }}</h1><br>
+	
+	<div>
+	    <table>
+		    <tr>
+				<th></th>
+		    </tr>
+		    {{range .Questions}}
+			<tr>  
+				<td>{{ .Date }}</td>  
+				<td>{{ .Question }}</td>
+				<td><form action="/backend/edit" method="post">
+		          <input type="hidden" name="key" value="{{ .Key }}">
+		          <input type="submit" value="Bearbeiten">
+		        </form></td>
+				<td><form action="/backend/delq" method="post">
+		          <input type="hidden" name="key" value="{{ .Key }}">
+		          <input type="submit" value="Delete">
+		        </form></td>
+				<td><form action="/backend/active" method="post">
+		          <input type="hidden" name="key" value="{{ .Key }}">
+		          <input type="submit" value="Activate">
+		        </form></td>
+			  </div>
+			<tr>
+			{{else}} <div><strong>no questions</strong></div>
+			{{end}}
+		</table>
+	<br>
+	<div>
+      <form action="/backend/addq" method="post">
+	    <div><input type="hidden" name="count" value="2">
+        <input type="submit" value="Neue Frage anlegen"></div>
+      </form>
+	</div>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+<html>
+  <body>
+	<h1>{{ .Url }}</h1><br>
+
+	<div>
+      <form action="/backend/deactivate" method="post">
+		<div><input type="hidden" name="keya" value="{{ .Key_a }}">
+	    <div><input type="hidden" name="key" value="{{ .Key }}">
+        <input type="submit" value="Frage beenden"></div>
+      </form>
+	</div>
+  </body>
+</html>

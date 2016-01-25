@@ -1,0 +1,28 @@
+<html>
+<link type="text/css" rel="stylesheet" href="/stylesheets/main.css">
+  <body>
+    <h1>Neue Frage anlegen für {{ .User }}</h1><br>
+	Maximal 5 Antwortmöglichkeiten, Antworten ohne Text werden nicht angezeigt.
+	  <div>
+	     
+		<form action="/backend/saveq" method="post">
+		  <label class="input" for="q">Frage</label> 
+		  <textarea name="q">Enter text here...</textarea>
+		  <label class="input" for="c0">Antwort 1</label> 
+		  <input type="text" id="c0" name="c0" maxlength="30">
+		  <label class="input" for="c1">Antwort 2</label> 
+		  <input type="text" id="c1" name="c1" maxlength="30">
+		  <label class="input" for="c2">Antwort 3</label> 
+		  <input type="text" id="c2" name="c2" maxlength="30">
+		  <label class="input" for="c3">Antwort 4</label> 
+		  <input type="text" id="c3" name="c3" maxlength="30">
+		  <label class="input" for="c4">Antwort 5</label> 
+		  <input type="text" id="c4" name="c4" maxlength="30">
+          <input type="hidden" name="parentkey" value="{{ .Id }}">
+          <button type="submit" value="Speichern">Speichern</button>
+        </form>
+	  </div>
+	<br>
+
+  </body>
+</html>
