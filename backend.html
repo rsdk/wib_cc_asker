@@ -1,12 +1,14 @@
 <html>
+<link type="text/css" rel="stylesheet" href="/stylesheets/main.css">
   <body>
-	<div>{{ .User }}
+	<div>
       <form action="{{ .Lo_url }}" method="get">
         <input type="submit" value="Ausloggen">
       </form>
 	</div> 
-    <h1>Hier sind alle deine Fragen</h1><br>
-	<h1>{{ .Uurl }}</h1><br>
+    <div><h1>Hallo {{ .User }}</h1><br><br>
+	Hier kannst du neue Fragen vorbereiten oder die Fragen stellen.</div>
+	<h2>Die URL für deine Fragen ist: {{ .Uurl }}</h2><br>
 	
 	<div>
 	    <table>
@@ -31,7 +33,7 @@
 		        </form></td>
 			  </div>
 			<tr>
-			{{else}} <div><strong>no questions</strong></div>
+			{{else}} <div><strong>Du hast noch keine Fragen angelegt.</strong></div>
 			{{end}}
 		</table>
 	<br>

@@ -2,9 +2,19 @@ form {
 	width: 40em;
 }
 
-#h2 {
+h1 {
+	font-family: sans-serif;
 	font-weight: bold;
 	font-size: 150%;
+	width: 90%;
+	margin-left: 7%;
+	float: left;
+}
+
+h2 {
+	font-family: sans-serif;
+	font-weight: bold;
+	font-size: 110%;
 	width: 90%;
 	margin-left: 7%;
 	float: left;
