@@ -1,7 +1,7 @@
 <html>
   <body>
-	<h1>{{ .Url }}</h1><br>
-
+	<h1>{{ .Myurlraw }}</h1><br>
+		<embed src="https://zxing.org/w/chart?cht=qr&chs=350x350&chld=H&choe=UTF-8&chl={{ .Myurl }}">
 	<div>
       <form action="/backend/deactivate" method="post">
 		<div><input type="hidden" name="keya" value="{{ .Key_a }}">

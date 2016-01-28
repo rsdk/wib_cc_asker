@@ -5,6 +5,7 @@ import (
 	//"io/ioutil"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 	"time"
 
@@ -150,15 +151,20 @@ func active(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	//ctx.Debugf(r.URL.Host)
 
 	data := struct {
-		Url   string
-		Key_a string
-		Key   string
+		Url      string
+		Key_a    string
+		Key      string
+		Myurl    string
+		Myurlraw string
 	}{
 		uid[0].Uurl,
 		a_key.Encode(),
 		key_str,
+		url.QueryEscape(r.URL.Host + uid[0].Uurl),
+		r.URL.Host + uid[0].Uurl,
 	}
 
 	err = activeTemplate.Execute(w, data)
@@ -242,7 +248,7 @@ func ask(w http.ResponseWriter, r *http.Request) {
 
 	url_rk := url_rootkey(ctx)
 	var uurl []Uurl
-	q := datastore.NewQuery("URL").Ancestor(url_rk).Filter("Uurl = ", r.URL.String()).Limit(1)
+	q := datastore.NewQuery("URL").Ancestor(url_rk).Filter("Uurl = ", r.URL.Path).Limit(1)
 	q.GetAll(ctx, &uurl)
 
 	if len(uurl) == 0 {
