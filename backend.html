@@ -8,7 +8,19 @@
 	</div> 
     <div><h1>Hallo {{ .User }}</h1><br><br>
 	Hier kannst du neue Fragen vorbereiten oder die Fragen stellen.</div>
+	{{ if .Uurl }}
 	<h2>Die URL für deine Fragen ist: {{ .Uurl }}</h2><br>
+	{{ else }}
+	<h2>Du hast noch keine URL für Fragen. Bitte verwende nur Buchstaben und keine Umlaute.</h2>
+		<div>
+      		<form action="/backend/save_new_url" method="post">
+	    		<div>
+				<input type="text" name="url" value="">
+        			<input type="submit" value="Neue Url für Fragen anlegen">
+			</div>
+      		</form>
+		</div>
+	{{ end }}
 	
 	<div>
 	    <table>

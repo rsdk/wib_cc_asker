@@ -1,5 +1,5 @@
 form {
-	width: 40em;
+	width: 80%;
 }
 
 h1 {
@@ -23,12 +23,12 @@ h2 {
 input,
 label.input {
 	float: left;
-	width: 40%;
+	width: 80%;
 }
 
 input {
-	margin: 0 0 1em .2em;
-	padding: .2em .5em;
+	margin: 0 0 1em 1em;
+	padding: .2em .2em;
 	background-color: #fffbf0;
 	border: 1px solid #e7c157;
 }
@@ -42,7 +42,8 @@ label.input::after {
 	content: ": ";
 }
 
+
 button {
-	float: right;
+	float: left;
 	width: 30%;
 }

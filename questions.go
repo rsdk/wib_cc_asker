@@ -19,6 +19,7 @@ var (
 	askTemplate     = template.Must(template.ParseFiles("ask.html"))
 	activeTemplate  = template.Must(template.ParseFiles("active.html"))
 	resultTemplate  = template.Must(template.ParseFiles("results.html"))
+	dankeTemplate   = template.Must(template.ParseFiles("danke.html"))
 )
 
 type Question struct {
@@ -44,12 +45,14 @@ func init() {
 	http.HandleFunc("/", ask)
 	http.HandleFunc("/backend", backend)
 	http.HandleFunc("/count", count)
+	http.HandleFunc("/danke", danke)
 	http.HandleFunc("/backend/active", active)
 	http.HandleFunc("/backend/deactivate", deactivate)
 	//http.HandleFunc("/backend/results", results)
 	http.HandleFunc("/backend/addq", backend_addq)
 	http.HandleFunc("/backend/saveq", backend_saveq)
 	http.HandleFunc("/backend/delq", backend_delq)
+	http.HandleFunc("/backend/save_new_url", be_save_new_url)
 	//http.HandleFunc("/", landing)
 }
 
@@ -94,7 +97,7 @@ func count(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Location", "/ask")
+	w.Header().Set("Location", "/danke")
 	w.WriteHeader(http.StatusFound)
 	return
 
@@ -315,6 +318,21 @@ func backend_saveq(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func danke(w http.ResponseWriter, r *http.Request) {
+
+	data := struct {
+		danke string
+	}{
+		"test",
+	}
+
+	err := dankeTemplate.Execute(w, data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
 func backend_addq(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
 	u := user.Current(ctx)
@@ -354,6 +372,40 @@ func backend_delq(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func be_save_new_url(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+	u := user.Current(ctx)
+	url_rk := url_rootkey(ctx)
+	ctx.Debugf(r.FormValue("url"))
+	var uid []Uurl
+	qu := datastore.NewQuery("URL").Ancestor(url_rk).Filter("Uurl = ", r.FormValue("url")).Limit(1)
+	_, err := qu.GetAll(ctx, &uid)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if len(uid) == 0 {
+		key := datastore.NewIncompleteKey(ctx, "URL", url_rk)
+		var uid2 Uurl
+		uid2.Userid = u.ID
+		uid2.Uurl = "/" + r.FormValue("url")
+		_, err := datastore.Put(ctx, key, &uid2)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Location", "/backend")
+		w.WriteHeader(http.StatusFound)
+		return
+	} else {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	http.Error(w, err.Error(), http.StatusInternalServerError)
+	return
+}
+
 func backend(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
 	u := user.Current(ctx)
@@ -376,18 +428,7 @@ func backend(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var uid_out string
-	if len(uid) == 0 {
-		key := datastore.NewIncompleteKey(ctx, "URL", url_rk)
-		var uid2 Uurl
-		uid2.Userid = u.ID
-		uid2.Uurl = "/ask"
-		_, err := datastore.Put(ctx, key, &uid2)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		uid_out = "neue URL: " + uid2.Uurl
-	} else {
+	if len(uid) > 0 {
 		uid_out = uid[0].Uurl
 	}
 
