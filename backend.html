@@ -1,13 +1,18 @@
 <html>
-<link type="text/css" rel="stylesheet" href="/stylesheets/main.css">
+	<head>
+		<link type="text/css" rel="stylesheet" href="/stylesheets/main.css">
+	</head>
   <body>
-	<div>
+	<div style="width:100%; height:50px">
       <form action="{{ .Lo_url }}" method="get">
         <input type="submit" value="Ausloggen">
       </form>
 	</div> 
-    <div><h1>Hallo {{ .User }}</h1><br><br>
-	Hier kannst du neue Fragen vorbereiten oder die Fragen stellen.</div>
+    <div style="width:100%; height:100px">
+		<h1>Hallo {{ .User }}</h1>
+	</div>
+	
+	<div style="width:100%; height:100px">
 	{{ if .Uurl }}
 	<h2>Die URL für deine Fragen ist: {{ .Uurl }}</h2><br>
 	{{ else }}
@@ -21,27 +26,27 @@
       		</form>
 		</div>
 	{{ end }}
-	
-	<div>
+	</div>
+	<div div style="width:100%; height:60%">
 	    <table>
 		    <tr>
 				<th></th>
 		    </tr>
 		    {{range .Questions}}
 			<tr>  
-				<td>{{ .Date }}</td>  
-				<td>{{ .Question }}</td>
+				<td><span>{{ .Date }} </span></td>  
+				<td><span>{{ .Question }}</span></td>
 				<td><form action="/backend/edit" method="post">
 		          <input type="hidden" name="key" value="{{ .Key }}">
-		          <input type="submit" value="Bearbeiten">
+		          <input style="width: 8em; height: 4em" type="submit" value="Bearbeiten">
 		        </form></td>
 				<td><form action="/backend/delq" method="post">
 		          <input type="hidden" name="key" value="{{ .Key }}">
-		          <input type="submit" value="Delete">
+		          <input style="width: 8em; height: 4em" type="submit" value="Delete">
 		        </form></td>
 				<td><form action="/backend/active" method="post">
 		          <input type="hidden" name="key" value="{{ .Key }}">
-		          <input type="submit" value="Activate">
+		          <input style="width: 8em; height: 4em" type="submit" value="Activate">
 		        </form></td>
 			  </div>
 			<tr>
@@ -52,7 +57,7 @@
 	<div>
       <form action="/backend/addq" method="post">
 	    <div><input type="hidden" name="count" value="2">
-        <input type="submit" value="Neue Frage anlegen"></div>
+        <input style="width: 100%; height: 4em" type="submit" value="Neue Frage anlegen"></div>
       </form>
 	</div>
   </body>

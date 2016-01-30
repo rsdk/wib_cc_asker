@@ -5,7 +5,7 @@ import (
 	//"io/ioutil"
 	"fmt"
 	"net/http"
-	"net/url"
+	//"net/url"
 	"strconv"
 	"time"
 
@@ -163,7 +163,7 @@ func active(w http.ResponseWriter, r *http.Request) {
 		uid[0].Uurl,
 		a_key.Encode(),
 		key_str,
-		url.QueryEscape(r.URL.Host + uid[0].Uurl),
+		r.URL.Host + uid[0].Uurl, //url.QueryEscape(r.URL.Host + uid[0].Uurl),
 		r.URL.Host + uid[0].Uurl,
 	}
 

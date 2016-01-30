@@ -1,7 +1,10 @@
 {{ $key := .Key }}
 <html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="/stylesheets/main.css">
+	</head>
   <body>
-    <h1>Hier ist: {{ .Question }}</h1><br>
+    <h1>Frage: {{ .Question }}</h1><br>
 	<div>
       
 		{{ range .Choices }}
@@ -9,7 +12,7 @@
 		<form action="/count" method="post">
 		<input type="hidden" name="idnr" value="{{ .Nr }}">
 		<input type="hidden" name="key" value="{{ $key }}">
-        <input type="submit" value="{{ .Ans }}"></div>
+        <input style="width: 50%; height: 8em; font-size: 20" type="submit" value="{{ .Ans }}"></div>
 		</form>
 		{{ end }}
       

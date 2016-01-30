@@ -20,12 +20,20 @@ h2 {
 	float: left;
 }
 
+span {
+	font-family: sans-serif;
+	font-size: 110%;
+	margin-left: 1em;
+}
+
 input,
+textarea,
 label.input {
 	float: left;
 	width: 80%;
 }
 
+textarea,
 input {
 	margin: 0 0 1em 1em;
 	padding: .2em .2em;
@@ -34,7 +42,7 @@ input {
 }
 
 label.input {
-	text-align: right;
+	text-align: left;
 	line-height: 1.5;
 }
 
@@ -45,5 +53,5 @@ label.input::after {
 
 button {
 	float: left;
-	width: 30%;
+	width: 50%;
 }
