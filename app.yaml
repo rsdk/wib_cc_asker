@@ -5,8 +5,8 @@ api_version: go1
 instance_class: F1
 automatic_scaling:
   min_idle_instances: 1
-  max_idle_instances: 2  # default value
-  min_pending_latency: 100ms  # default value
+  max_idle_instances: 2
+  min_pending_latency: 100ms
   max_pending_latency: 1000ms
   max_concurrent_requests: 80
 
