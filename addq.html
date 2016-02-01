@@ -7,7 +7,7 @@
 	     
 		<form action="/backend/saveq" method="post">
 		  <label class="input" for="q">Frage</label> 
-		  <textarea name="q">Enter text here...</textarea>
+		  <textarea name="q"></textarea>
 		  <label class="input" for="c0">Antwort 1</label> 
 		  <input type="text" id="c0" name="c0" maxlength="30">
 		  <label class="input" for="c1">Antwort 2</label> 
@@ -19,7 +19,7 @@
 		  <label class="input" for="c4">Antwort 5</label> 
 		  <input type="text" id="c4" name="c4" maxlength="30">
           <input type="hidden" name="parentkey" value="{{ .Id }}">
-          <button type="submit" value="Speichern">Speichern</button>
+          <input class="q" type="submit" value="Speichern"></button>
         </form>
 	  </div>
 	<br>

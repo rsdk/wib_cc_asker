@@ -3,18 +3,56 @@
 		<link type="text/css" rel="stylesheet" href="/stylesheets/main.css">
 	</head>
   <body>
-	<div style="width:100%; height:50px">
+	<div id="logout">
       <form action="{{ .Lo_url }}" method="get">
         <input type="submit" value="Ausloggen">
       </form>
 	</div> 
-    <div style="width:100%; height:100px">
+    <div id="welcome">
 		<h1>Hallo {{ .User }}</h1>
 	</div>
 	
 	<div style="width:100%; height:100px">
 	{{ if .Uurl }}
 	<h2>Die URL für deine Fragen ist: {{ .Uurl }}</h2><br>
+	</div>
+	<div id="questions">
+	    <table>
+			<theader>
+		    <tr>
+				<th></th>
+		    </tr>
+			</theader>
+			<tbody>
+		    {{range .Questions}}
+			<tr>  
+				<td><span>{{ .Date }} </span></td>  
+				<td><span>{{ .Question }}</span></td>
+				<td><form action="/backend/analyze" method="post">
+		          <input type="hidden" name="key" value="{{ .Key }}">
+		          <input class="q" type="submit" value="Ergebnisse">
+		        </form></td>
+				<td><form action="/backend/delq" method="post">
+		          <input type="hidden" name="key" value="{{ .Key }}">
+		          <input class="q" type="submit" value="Löschen">
+		        </form></td>
+				<td><form action="/backend/active" method="post">
+		          <input type="hidden" name="key" value="{{ .Key }}">
+		          <input class="q" type="submit" value="Aktivieren">
+		        </form></td>
+			  </div>
+			<tr>
+			{{else}} <div id="nothinghere"><strong>Du hast noch keine Fragen angelegt.</strong></div>
+			{{end}}
+			</tbody>
+		</table>
+	<br>
+	<div id="addquestion">
+      <form action="/backend/addq" method="post">
+	    <div><input type="hidden" name="count" value="2">
+        <input class="q" type="submit" value="neue Frage"></div>
+      </form>
+	</div>
 	{{ else }}
 	<h2>Du hast noch keine URL für Fragen. Bitte verwende nur Buchstaben und keine Umlaute.</h2>
 		<div>
@@ -26,39 +64,6 @@
       		</form>
 		</div>
 	{{ end }}
-	</div>
-	<div div style="width:100%; height:60%">
-	    <table>
-		    <tr>
-				<th></th>
-		    </tr>
-		    {{range .Questions}}
-			<tr>  
-				<td><span>{{ .Date }} </span></td>  
-				<td><span>{{ .Question }}</span></td>
-				<td><form action="/backend/edit" method="post">
-		          <input type="hidden" name="key" value="{{ .Key }}">
-		          <input style="width: 8em; height: 4em" type="submit" value="Bearbeiten">
-		        </form></td>
-				<td><form action="/backend/delq" method="post">
-		          <input type="hidden" name="key" value="{{ .Key }}">
-		          <input style="width: 8em; height: 4em" type="submit" value="Delete">
-		        </form></td>
-				<td><form action="/backend/active" method="post">
-		          <input type="hidden" name="key" value="{{ .Key }}">
-		          <input style="width: 8em; height: 4em" type="submit" value="Activate">
-		        </form></td>
-			  </div>
-			<tr>
-			{{else}} <div><strong>Du hast noch keine Fragen angelegt.</strong></div>
-			{{end}}
-		</table>
-	<br>
-	<div>
-      <form action="/backend/addq" method="post">
-	    <div><input type="hidden" name="count" value="2">
-        <input style="width: 100%; height: 4em" type="submit" value="Neue Frage anlegen"></div>
-      </form>
-	</div>
+	
   </body>
 </html>
