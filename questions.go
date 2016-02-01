@@ -269,11 +269,16 @@ func ask(w http.ResponseWriter, r *http.Request) {
 		Nr  string
 	}
 
-	as := make([]As, 5)
-	for i := 0; i < 5; i++ {
-		as[i].Ans = question[0].Choices[i]
-		as[i].Nr = strconv.Itoa(i + 1)
-		//ctx.Debugf("%v", as[i].Nr)
+	as := make([]As, 0, 5)
+	var a As
+	for i := 0; i < len(question[0].Choices); i++ {
+
+		a.Ans = question[0].Choices[i]
+		a.Nr = strconv.Itoa(i + 1)
+		if len(a.Ans) > 0 {
+			as = append(as, a)
+			ctx.Debugf("%v", len(as))
+		}
 	}
 
 	data := struct {
