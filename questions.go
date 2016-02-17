@@ -430,19 +430,26 @@ func backend(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusFound)
 		return
 	}
+	
+	// Prüfen ob der User schon eine URL fuer Fragen hat
 	url_rk := url_rootkey(ctx)
-	var uid []Uurl
+	var uid []Uurl  // Array aus Uurl structs deklarieren
 	qu := datastore.NewQuery("URL").Ancestor(url_rk).Filter("Userid = ", u.ID).Limit(1)
-	keys, err := qu.GetAll(ctx, &uid)
+	keys, err := qu.GetAll(ctx, &uid) // Die Adresse des Uurl structs uebergeben
+	
+	// Wenn Fehler beim Daten holen, 500er Fehler anzeigen
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	
+	// Wenn es zu diesem User einen Eintrag gibt, die URL in uid_out speichern
 	var uid_out string
 	if len(uid) > 0 {
 		uid_out = uid[0].Uurl
 	}
 
+	// Alle Fragen zu diesem User aus dem Datastore holen
 	rootkey := user_rootkey(ctx, u.ID)
 	q := datastore.NewQuery("Question").Ancestor(rootkey).Order("-Date")
 	var questions []Question
@@ -452,6 +459,7 @@ func backend(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	
 	type Qs struct {
 		Question string
 		Date     string
@@ -459,7 +467,8 @@ func backend(w http.ResponseWriter, r *http.Request) {
 		Active   bool
 	}
 
-	qs := make([]Qs, len(keys))
+	
+	qs := make([]Qs, len(keys)) // Slice vom struct Qs erzeugen
 	for i := 0; i < len(keys); i++ {
 		qs[i].Question = questions[i].Question
 		qs[i].Date = questions[i].Date.Format("2006-01-02 15:04")
@@ -470,6 +479,7 @@ func backend(w http.ResponseWriter, r *http.Request) {
 	lo_url, _ := user.LogoutURL(ctx, "/backend")
 	//rootkey := user_rootkey(ctx, u.ID)
 
+	// Struct fuer die Uebergabe an die Templating Engine erzeugen
 	data := struct {
 		User      string
 		Questions *[]Qs
@@ -477,12 +487,12 @@ func backend(w http.ResponseWriter, r *http.Request) {
 		Uurl      string
 	}{
 		u.Email,
-		&qs,
+		&qs,     // Die Adresse des Qs Slice
 		lo_url,
 		uid_out,
 	}
 
-	err = backendTemplate.Execute(w, data)
+	err = backendTemplate.Execute(w, data)   // Template rendern
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
